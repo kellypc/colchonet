@@ -42,5 +42,15 @@ RSpec.describe User, type: :model do
 
       expect(user.errors[:password]).to include("can't be blank")
     end
+
+    it "é inválido caso já exista um e-mail igual" do
+      user = User.create( full_name: 'Steve Martin',
+                      email: 'contato@ironmaiden.com' )
+      user = User.new( full_name: 'Bruce Willis',
+                       email: 'contato@ironmaiden.com' )
+      user.valid?
+      
+      expect(user.errors[:email]).not_to include('has already been taken')
+     end
   end
 end
